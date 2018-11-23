@@ -228,4 +228,13 @@ class TriVertexRotStepView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : TriVertexRotStepView {
+            val view : TriVertexRotStepView = TriVertexRotStepView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
