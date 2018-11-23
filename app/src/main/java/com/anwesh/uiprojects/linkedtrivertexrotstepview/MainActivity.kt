@@ -2,11 +2,12 @@ package com.anwesh.uiprojects.linkedtrivertexrotstepview
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.anwesh.uiprojects.trivertex.TriVertexRotStepView
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        TriVertexRotStepView.create(this)
     }
 }
