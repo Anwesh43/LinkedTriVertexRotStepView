@@ -203,4 +203,27 @@ class TriVertexRotStepView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : TriVertexRotStepView) {
+
+        private val tvrs : TriVertexRotStep = TriVertexRotStep(0)
+
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#BDBDBD"))
+            tvrs.draw(canvas, paint)
+            animator.animate {
+                tvrs.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            tvrs.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
