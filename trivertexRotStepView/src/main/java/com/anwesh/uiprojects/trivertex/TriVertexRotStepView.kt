@@ -45,14 +45,15 @@ fun Canvas.drawTVRNode(i : Int, scale : Float, paint : Paint) {
     paint.color = color
     save()
     translate(w/2 + offsetX, gap * (i + 1))
-    rotate(- 90f * sc2)
+    val  currDeg = - (90f * sc2) * i.percentileNegate()
+    rotate(currDeg)
     for (j in 0..(tris - 1)) {
         val sc : Float = sc1.divideScale(j, tris)
         val cx : Float = size * Math.cos(deg * j).toFloat()
         val cy : Float = size * Math.sin(deg * j).toFloat()
         save()
         translate(cx, cy)
-        rotate(90f * sc2 + 90f * sc)
+        rotate(-currDeg + 180f * (i % 2) -   90f * sc )
         val path : Path = Path()
         for (k in 0..(tris-1)) {
             val d : Double = (2 * Math.PI / tris)
@@ -92,7 +93,7 @@ class TriVertexRotStepView(ctx : Context) : View(ctx) {
     data class State(var scale : Float = 0f, var prevScale : Float = 0f, var dir : Float = 0f) {
 
         fun update(cb : (Float) -> Unit) {
-            scale += dir * scale.updateScale(dir, tris, 1)
+            scale += scale.updateScale(dir, tris, 1)
             if (Math.abs(scale - prevScale) > 1) {
                 scale = prevScale + dir
                 dir = 0f
