@@ -19,7 +19,8 @@ val color : Int = Color.parseColor("#673AB7")
 val sizeFactor : Int = 3
 val scDiv : Double = 0.51
 val scGap : Float = 0.05f
-
+val DELAY : Long = 25
+val strokeFactor : Int = 90
 fun Int.getInverse() : Float = 1f / this
 
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.getInverse(), Math.max(this - n.getInverse() * i, 0f)) * n
@@ -46,6 +47,8 @@ fun Canvas.drawTVRNode(i : Int, scale : Float, paint : Paint) {
     save()
     translate(w/2 + offsetX, gap * (i + 1))
     val  currDeg = - (90f * sc2) * i.percentileNegate()
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
     rotate(currDeg)
     for (j in 0..(tris - 1)) {
         val sc : Float = sc1.divideScale(j, tris)
@@ -66,6 +69,7 @@ fun Canvas.drawTVRNode(i : Int, scale : Float, paint : Paint) {
             }
         }
         drawPath(path, paint)
+        drawLine(0f, 0f, -(size), 0f, paint)
         restore()
     }
     restore()
@@ -116,7 +120,7 @@ class TriVertexRotStepView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(DELAY)
                     view.invalidate()
                 } catch(ex : Exception) {
 
